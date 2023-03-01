@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Button, StyleSheet, View } from 'react-native'
+import { Button, Text, View } from 'react-native'
+import jwtDecode from "jwt-decode";
 import {
   useAuthRequest,
   exchangeCodeAsync,
@@ -29,7 +30,9 @@ export default function App() {
           exchangeTokenReq,
           discovery
         )
-        setAuthTokens(exchangeTokenResponse)
+        const { idToken } = exchangeTokenResponse;
+        const decoded = jwtDecode(idToken);
+        setAuthTokens({ ...exchangeTokenResponse, userProfile: decoded });
       } catch (error) {
         console.error(error)
       }
@@ -70,17 +73,21 @@ export default function App() {
   }
   console.log('authTokens: ' + JSON.stringify(authTokens))
 
+  if (authTokens) {
+    const { userProfile: { first_name, last_name } } = authTokens
+    return <View style={{ paddingTop: 200 }}>
+      <Text>Welcome {`${first_name} ${last_name}`}!</Text>
+      <Button title="Logout" onPress={() => logout()} />
+    </View>
+  }
+
   return (
     <View style={{ paddingTop: 200 }}>
-      {authTokens ? (
-        <Button title="Logout" onPress={() => logout()} />
-      ) : (
-        <Button
-          disabled={!request}
-          title="Login"
-          onPress={() => promptAsync()}
-        />
-      )}
+      <Button
+        disabled={!request}
+        title="Login"
+        onPress={() => promptAsync()}
+      />
     </View>
   )
 }
