@@ -1,8 +1,8 @@
 // Endpoint
 export const discovery = {
-  authorizationEndpoint: 'https://oauth2.quran.com/oauth2/auth',
-  tokenEndpoint: 'https://oauth2.quran.com/oauth2/token',
-  revocationEndpoint: 'https://oauth2.quran.com/oauth2/revoke',
+  authorizationEndpoint: 'https://oauth2.quran.foundation/oauth2/auth',
+  tokenEndpoint: 'https://oauth2.quran.foundation/oauth2/token',
+  revocationEndpoint: 'https://oauth2.quran.foundation/oauth2/revoke',
 }
 
 export const clientId = 'quran-demo-mobile'
